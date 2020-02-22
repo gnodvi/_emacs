@@ -1,0 +1,64 @@
+#!/bin/bash
+#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# http://stackoverflow.com/questions/630372/
+# determine-the-path-of-the-executing-bash-script
+#
+
+SCRIPT_PATH=$(dirname $(readlink -f $0))     
+
+SCRIPT_PATH="`( cd \"$SCRIPT_PATH\" && pwd )`"  # absolutized and normalized
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#  test - check file types and compare values
+#  -z STRING
+#     the length of STRING is zero
+# #
+# #
+# if [ -z "$SCRIPT_PATH" ] ; then
+#   # error; for some reason, the path is not accessible
+#   # to the script (e.g. permissions re-evaled after suid)
+#   exit 1  # fail
+# fi
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RES=$(xdpyinfo | awk '/dimensions/{print $2}')
+
+#FIL=~/.X.$RES.xe
+FIL=$SCRIPT_PATH/.X.$RES.xe
+
+if [ -f "$FIL" ]; then
+    #echo "$FILE exist"
+    xrdb -load $FIL
+else 
+    #echo "$FILE does not exist"
+    xrdb -load $SCRIPT_PATH/.X.xe
+fi
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+XEMACS_DIR=$SCRIPT_PATH/xemacs
+
+#xrdb -load ~/.Xdefaults.xe
+#xemacs -user-init-directory  $XEMACS_DIR/KOI8  $1  & # $2 $3 
+#xemacs -user-init-directory  $XEMACS_DIR  $1  & # $2 $3 
+#~/.USERS/MSOFT/xemacs/xemacs21-nomule  -user-init-directory  $XEMACS_DIR  $1  & # $2 $3 
+
+
+~/MSOFT/EMACS/xemacs/P/R/bin/xemacs  -user-init-directory  $XEMACS_DIR  $1  & # $2 $3 
+
+
+#xemacs  -user-init-directory  $XEMACS_DIR  $1  & # $2 $3
+#
+# ?? error ?? хотя
+#
+# which xemacs
+# /home/knoppix/USOFT/EMACS/xemacs/21.4.22-tabs/R/bin/xemacs
+# 
+  
+#--------------------------------------------------------------
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+  
